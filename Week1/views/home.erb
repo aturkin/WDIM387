@@ -1,8 +1,9 @@
-<!DOCTYPE html>
+<!DOCTYPE html
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Getting the Date with Ajax!</title>
+		<title>Allan Turkington Date Week1</title>
 
 		<style type="text/css">
 
@@ -31,10 +32,13 @@
 			// Uses Ajax to get JSON from the server, then renders the date
 			// that was stored in the JSON.
 			var setDate = function() {
+
+				//Get Date
 				$.getJSON("/date").then(function(data) {
 					$("#date").text(data.Date.toString());
 					
 				}),
+				//Get DateTime
 				$.getJSON("/dateTime").then(function(data) {
 					$("#dateTime").text(data.DateTime.toString());
 					
