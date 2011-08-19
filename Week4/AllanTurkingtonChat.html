@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Allan Turkington Chat!</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+	<script>
+	
+		//Allan Turkington
+		//WK 4 HW
+		//August 18, 2011
+		
+		$(function() {
+		
+			//Set Random Userid
+			var names=["Small Guy","Joe","Supper Man", "Little Man"];
+			$('#userID').val(names[Math.floor(Math.random()*names.length)]);
+			
+			var ct = {};
+			ct.token = "fc65f84abb17333105b80a71d593f017b5b7b62182452fb5a30cb72c";
+		
+			ct.get = function(duration, data) {
+				return $.getJSON("http://cutetypo.com/message/get?" + duration + "&callback=?&token=" + ct.token, data);
+			};
+			
+			//Take Out
+			ct.get("").then(function(data) {
+				$.each(data, function() {
+					var areaText = $('#Area').val();
+					$('#Area').val(areaText + this.username + ": " + this.message + "\n");
+					$('#Area').scrollTop($('#Area')[0].scrollHeight);
+				});
+			});
+			
+			var update = function() {
+			ct.get("-5seconds").then(function(data) {
+				$.each(data, function() {
+					var areaText = $('#Area').val();
+					$('#Area').val(areaText + this.username + ": " + this.message + "\n");
+					$('#Area').scrollTop($('#Area')[0].scrollHeight);
+				});
+			})};
+			
+			setInterval(update, 5000);
+			
+			$.getJSON("http://cutetypo.com/name/set?callback=?", {name: "Allan Turkington Chat App", token: ct.token})
+				.then(function(data) { 
+					$.getJSON("http://cutetypo.com/name/get?callback=?&token=" + ct.token)
+						.then(function(data) { console.log(data); })
+
+					console.log(data);
+				})
+				
+			ct.send = function(msg, data) {
+				return $.getJSON("http://cutetypo.com/message/send?message=" + msg + "&username=" + $('#userID').val() + "&callback=?&token=" + ct.token, data);
+			};
+				
+			
+			$('#msgSend').click(function(){
+				ct.send($('#MSG').val())
+					.then(function(data) { console.log(data) });
+				
+				$('#MSG').val("");
+				
+				$('#msgSend').delay(1000);
+				
+				ct.get("-5seconds").then(function(data) {
+					$.each(data, function() {
+						var areaText = $('#Area').val();
+						$('#Area').val(areaText + this.username + ": " + this.message + "\n");
+						$('#Area').scrollTop($('#Area')[0].scrollHeight); 
+					});
+				});
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<input type="text" id="userID" cols="40" rows="0" size="106"/></br>
+	<textarea id="Area" cols="80" rows="10"></textarea><br>
+	<input type="text" id="MSG" cols="80" rows="0" size="106"/></br>
+	<input type="submit" id="msgSend" value="Submit" />
+	
+</body>
+</html>
