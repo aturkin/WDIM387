@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Whats is your ToDo List?</title>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+ 
+<style type="text/css">
+	div{
+		padding:8px;
+	}
+</style>
+ 
+</head>
+ 
+</head><body>
+
+<script>
+	
+	
+	if (('localStorage' in window) && (window.localStorage !== null)) {
+		
+		alert(localStorage.getItem('DivTodo'));
+	}
+
+	$(document).ready(function(){
+	
+		var counter = 1;
+		$("#addToDo").click(function () {
+		
+			if(counter>10){
+					alert("Only 10 Todo's Allow!");
+					return false;
+			}   
+		 
+			var newTextBoxDiv = $(document.createElement('div'))
+				 .attr("id", 'DivTodo' + counter);
+		 
+			newTextBoxDiv.html('<label>ToDO: </label>' +
+				'<input type="text" name="ToDO_textbox' + counter + 
+				'" id="Todo' + counter + '" value="" > ' +
+				'<input type="button" value="Delete" class="DeleteToDo" id="' + counter + '">');
+				
+			newTextBoxDiv.appendTo("#TodoGroup");
+			var ht = document.getElementById("DivTodo" + counter).innerHTML;
+			localStorage.setItem('DivTodo', "hello"); 
+			counter++;
+		});
+		
+		$('.DeleteToDo').live('click', function() {
+			
+			$('#DivTodo' + this.id).remove();
+			counter -=1;
+		localStorage
+		});
+			 
+	});
+	
+
+</script>
+ 
+<div id='TodoGroup'>
+
+</div>
+<input type='button' value='Add Todo' id='addToDo'>
+ 
+</body>
+</html>

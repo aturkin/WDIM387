@@ -59,7 +59,8 @@ var login = null;
 var user;
 
 io.sockets.on('connection', function (socket) {
-
+	
+	console.log("hello new User");
 	user = new User(socket);
 	manager.findTable().addUser(user);
 	users[users.length] = user;
